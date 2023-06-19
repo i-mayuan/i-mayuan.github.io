@@ -144,6 +144,34 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git credential store <span class="comment"># 启用凭据存储</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git config --global credential.helper store <span class="comment"># 让Git记住密码</span></span></span><br></pre></td></tr></table></figure>
 <p>然后就好了</p>
 </blockquote>
+<p>但是后来又出问题，还是建议使用ssh连接</p>
+<ol>
+<li>生成 SSH 密钥对</li>
+</ol>
+<p>如果您还没有 SSH 密钥对，可以打开终端或 Git Bash，输入以下命令生成密钥对：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C &quot;你的邮箱地址&quot;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>-t rsa</code> 表示生成 RSA 加密的密钥对；<code>-b 4096</code> 属性表示生成 4096 位的密钥；<code>-C &quot;你的邮箱地址&quot;</code> 表示在生成密钥时添加注释，这里建议您填写 Github 账户的邮箱地址。</p>
+<p>您会看到提示让您输入存储密钥的文件名和密码，一般情况下，直接按 Enter 选择默认值即可。</p>
+<ol start="2">
+<li>添加公钥</li>
+</ol>
+<p>在生成密钥对后，您可以在命令行终端运行以下命令来查看秘钥：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+<p>这个命令将打印出生成的公钥。然后，将这个公钥添加到您的 GitHub 账户中，在 GitHub 网站上点击头像-&gt;Settings-&gt;SSH and GPG keys，新建 SSH key 后，将刚刚打印出的公钥复制到 SSH Key 字段中。</p>
+<ol start="3">
+<li>修改 Git 仓库地址</li>
+</ol>
+<p>在 Hexo 配置文件 <code>_config.yml</code> 中找到 <code>deploy</code> 部分，将该部分的值设置为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:&lt;GitHub用户名&gt;/&lt;GitHub用户名&gt;.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>这里主要把 Git 仓库地址改为 SSH 协议的地址，即将 <a target="_blank" rel="noopener" href="https://github.com/">https://github.com/</a> 更改为 <a href="mailto:git@github.com">git@github.com</a>: 并添加您的 GitHub 用户名。</p>
+<ol start="4">
+<li>测试 SSH 连接</li>
+</ol>
+<p>修改后，在命令行中执行以下命令来测试是否可以成功连接：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>其中， <a href="mailto:git@github.com">git@github.com</a> 是 Git 仓库的 SSH 类型的网址，测试成功的提示信息应该类似于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hi &lt;GitHub用户名&gt;! You&#x27;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
+<p>至此，您已经成功地设置好了 SSH 连接。在以后的使用过程中，每次进行 Git 仓库操作时，都不需要再输入账户名和密码，而是直接连接到 GitHub 平台进行安全的代码交互操作。</p>
 <h2 id="8-最佳实践"><a class="header-anchor" href="#8-最佳实践">¶</a>8.最佳实践</h2>
 <p>如果你是博客项目的话，那么你可以设置评论</p>
 <p>我使用的评论插件是gittalk</p>
