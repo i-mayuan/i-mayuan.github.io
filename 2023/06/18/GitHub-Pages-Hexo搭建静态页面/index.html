@@ -137,6 +137,13 @@
 </ol>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">token:</span> <span class="string">&#x27;token&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>之后就可以无密码提交了</p>
+<blockquote>
+<p>后来，出现了这么个错误</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fatal: unable to access &#x27;https://github.com/i-mayuan/i-mayuan.github.io.git/&#x27;: Recv failure: Connection was reset</span><br><span class="line">FATAL Something&#x27;s wrong. Maybe you can find the solution here: https://hexo.io/docs/troubleshooting.html</span><br><span class="line">Error: Spawn failed</span><br><span class="line">    at ChildProcess.&lt;anonymous&gt; (D:\projects\ma-yuan-blog\node_modules\hexo-util\lib\spawn.js:51:21)</span><br><span class="line">    at ChildProcess.emit (node:events:527:28)</span><br><span class="line">    at ChildProcess.cp.emit (D:\projects\ma-yuan-blog\node_modules\cross-spawn\lib\enoent.js:34:29)</span><br><span class="line">    at Process.ChildProcess._handle.onexit (node:internal/child_process:291:12)</span><br></pre></td></tr></table></figure>
+<p>出现这个不要慌张，在.deploy_git里面执行这两句</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git credential store <span class="comment"># 启用凭据存储</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git config --global credential.helper store <span class="comment"># 让Git记住密码</span></span></span><br></pre></td></tr></table></figure>
+<p>然后就好了</p>
+</blockquote>
 <h2 id="8-最佳实践"><a class="header-anchor" href="#8-最佳实践">¶</a>8.最佳实践</h2>
 <p>如果你是博客项目的话，那么你可以设置评论</p>
 <p>我使用的评论插件是gittalk</p>
